@@ -1,5 +1,7 @@
 package telran.b7a.student.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,13 @@ import telran.b7a.student.service.StudentService;
 @RestController
 public class StudentController {
 
-	@Autowired
+//	@Autowired
 	StudentService studentService;
+	
+	@Autowired
+	public StudentController(StudentService studentService) {
+		this.studentService = studentService;
+	}
 
 	@PostMapping("/student")
 	public boolean studentRegister(@RequestBody StudentCredentialsDto studentCredentialsDto) {
@@ -44,6 +51,11 @@ public class StudentController {
 	@PutMapping("/score/student/{id}")
 	public boolean addScore(@PathVariable Integer id, @RequestBody ScoreDto scoreDto) {
 		return studentService.addScore(id, scoreDto);
+	}
+	
+	@GetMapping("/students/name/{name}")
+	public List<StudentDto> findStudentByName(@PathVariable String name){
+		return studentService.findStudentsByName(name);
 	}
 
 }
